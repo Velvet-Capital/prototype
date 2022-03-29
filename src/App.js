@@ -84,6 +84,8 @@ class App extends Component {
       } else {
         alert("Metamask not found");
       }
+
+      this.loadBlockchainData();
   }
 
   investNFT = async() => {
