@@ -4,8 +4,9 @@ import IndexToken from "./abis/indexToken.json";
 import IERC from "./abis/IERC20.json";
 import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
-import { Grid, Button, Card, Header, HeaderSubheader, Form, Input } from 'semantic-ui-react';
+import { Grid, Button, Card, Header, Icon, Form, Input, Image } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
+import velvet from "./velvet.png";
 
 
 import "./App.css";
@@ -150,9 +151,11 @@ class App extends Component {
     return (
       <div className="App">
         <br></br>
-        <Header style={{color: "white"}} as='h1'>Velvet.Capital</Header>
+        <Image src={velvet} size="medium" verticalAlign='middle'></Image>
 
-        <Button onClick={this.connectWallet} color="orange" type="submit" style={{ margin: "20px", width: "150px" }}>Connect Metamask</Button>
+        <Button style={{position:"absolute", top:"60px", right:"20px"}} onClick={this.connectWallet} color="orange">
+          Connect to MetaMask
+        </Button>
 
         <Grid divided='vertically'>
           <Grid.Row columns={2} style={{ margin: "20px" }}>
