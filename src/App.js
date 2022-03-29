@@ -30,7 +30,9 @@ class App extends Component {
       defiTokenBalance: 0,
       usdtTokenBalance: 0,
       busdTokenBalance: 0,
-      daiTokenBalance: 0
+      daiTokenBalance: 0,
+
+      rate: 0
     }
   }
 
@@ -38,6 +40,7 @@ class App extends Component {
     await this.loadWeb3();
     await this.loadBlockchainData();
     await this.calcTokenBalances();
+    await this.getRate();
   }
 
   // first up is to detect ethereum provider
@@ -73,9 +76,21 @@ class App extends Component {
     })
   }
 
+  connectWallet = async () =>{
+    if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        await window.ethereum.enable();
+        console.log("Connected");
+      } else {
+        alert("Metamask not found");
+      }
+  }
+
   investNFT = async() => {
+    const web3 = window.web3;
     const v = this.state.nftToMint;
-    const resp = await this.state.SwapContract.methods.investInFundNFT().send({from: this.state.account, value: v});
+    const amount = web3.utils.toWei(v, "ether");
+    const resp = await this.state.SwapContract.methods.investInFundNFT().send({from: this.state.account, value: amount});
     if(resp.status) {
       window.alert("Investment successful!");
     } else {
@@ -86,8 +101,10 @@ class App extends Component {
   }
 
   investDeFi = async() => {
+    const web3 = window.web3;
     const v = this.state.defiToMint;
-    const resp = await this.state.SwapContract.methods.investInFundDeFi().send({from: this.state.account, value: v});
+    const amount = web3.utils.toWei(v, "ether");
+    const resp = await this.state.SwapContract.methods.investInFundDeFi().send({from: this.state.account, value: amount});
     if(resp.status) {
       window.alert("Investment successful!");
     } else {
@@ -98,28 +115,42 @@ class App extends Component {
   }
 
   calcTokenBalances = async() => {
-    const nftTokenBalance = await this.state.NFTTokenContract.methods.balanceOf(this.state.account).call();
-    const defiTokenBalance = await this.state.DeFiTokenContract.methods.balanceOf(this.state.account).call();
-    
     const web3 = window.web3;
 
+    const nftTokenBalanceRes = await this.state.NFTTokenContract.methods.balanceOf(this.state.account).call();
+    const nftTokenBalance = web3.utils.fromWei(nftTokenBalanceRes, "ether");
+
+    const defiTokenBalanceRes = await this.state.DeFiTokenContract.methods.balanceOf(this.state.account).call();
+    const defiTokenBalance = web3.utils.fromWei(defiTokenBalanceRes, "ether");
+
     const USDTokenConntract = new web3.eth.Contract(IERC.abi, "0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684");
-    const usdtTokenBalance = await USDTokenConntract.methods.balanceOf(this.state.account).call();
+    const usdtTokenBalanceRes = await USDTokenConntract.methods.balanceOf(this.state.account).call();
+    const usdtTokenBalance = web3.utils.fromWei(usdtTokenBalanceRes, "ether");
 
     const BUSDTokenConntract = new web3.eth.Contract(IERC.abi, "0x78867BbEeF44f2326bF8DDd1941a4439382EF2A7");
-    const busdTokenBalance = await BUSDTokenConntract.methods.balanceOf(this.state.account).call();
+    const busdTokenBalanceRes = await BUSDTokenConntract.methods.balanceOf(this.state.account).call();
+    const busdTokenBalance = web3.utils.fromWei(busdTokenBalanceRes, "ether");
 
     const DAITokenConntract = new web3.eth.Contract(IERC.abi, "0x8a9424745056Eb399FD19a0EC26A14316684e274");
-    const daiTokenBalance = await DAITokenConntract.methods.balanceOf(this.state.account).call();
+    const daiTokenBalanceRes = await DAITokenConntract.methods.balanceOf(this.state.account).call();
+    const daiTokenBalance = web3.utils.fromWei(daiTokenBalanceRes, "ether");
     
     this.setState({ nftTokenBalance, defiTokenBalance, usdtTokenBalance, busdTokenBalance,daiTokenBalance });
+  }
+
+  getRate = async() => {
+    const rateObj = await this.state.SwapContract.methods.currentRate().call();
+    const rate = rateObj.numerator / rateObj.denominator;
+    this.setState({ rate });
   }
 
   render() {
     return (
       <div className="App">
         <br></br>
-        <Header as='h1'>Velvet.Capital</Header>
+        <Header style={{color: "white"}} as='h1'>Velvet.Capital</Header>
+
+        <Button onClick={this.connectWallet} color="orange" type="submit" style={{ margin: "20px", width: "150px" }}>Connect Metamask</Button>
 
         <Grid divided='vertically'>
           <Grid.Row columns={2} style={{ margin: "20px" }}>
@@ -128,21 +159,28 @@ class App extends Component {
               <Card.Group>
                 <Card style={{ width: "900px" }}>
                   <Card.Content style={{ background: "#406ccd" }}>
-                    <Card.Header>DeFi</Card.Header>
-                    <Card.Meta>Top 5 DeFi tokens</Card.Meta>
+                    <Card.Header style={{color: "white"}}>DeFi</Card.Header>
+                    <Card.Meta style={{color: "#B0B0B0"}}>Top 5 DeFi tokens</Card.Meta>
                     <Card.Description>
 
+                    <p style={{color: "#C0C0C0"}}>Rate: In return of investing 1 BNB you receive {this.state.rate} DeFi Tokens.</p>
+
                       <Form onSubmit={this.investDeFi}>
-                        <Input style={{ width: "300px", padding: 3 }} required type="text" placeholder="Amount to mint" name="defiToMint" onChange={this.handleInputChange}></Input><br></br>
-                        <Button color="green" type="submit" style={{ margin: "20px" }}>Invest!</Button>
+                        <Input style={{ width: "300px", padding: 3 }} required type="text" placeholder="BNB amount to invest" name="defiToMint" onChange={this.handleInputChange}></Input>
+                        <Button color="green" type="submit" style={{ margin: "20px", width: "150px" }}>Invest</Button>
                       </Form>
 
-                      <h5>Balances</h5>
+                      <Form>
+                        <Input disabled style={{ width: "300px", padding: 3 }} required type="text" placeholder="BNB amount to withdraw"></Input>
+                        <Button disabled color="green" style={{ margin: "20px", width: "150px" }}>Withdraw</Button>
+                      </Form>
 
-                      <p>DeFi Token: {this.state.defiTokenBalance}</p>
-                      <p>USDT Token: {this.state.usdtTokenBalance}</p>
-                      <p>BUSD Token: {this.state.busdTokenBalance}</p>
-                      <p>DAI Token: {this.state.daiTokenBalance}</p>
+                      <h5 style={{color: "white"}}>Balances</h5>
+
+                      <p style={{color: "#C0C0C0	"}}>DeFi Token: {this.state.defiTokenBalance}</p>
+                      <p style={{color: "#C0C0C0	"}}>USDT Token: {this.state.usdtTokenBalance}</p>
+                      <p style={{color: "#C0C0C0	"}}>BUSD Token: {this.state.busdTokenBalance}</p>
+                      <p style={{color: "#C0C0C0	"}}>DAI Token: {this.state.daiTokenBalance}</p>
             
                     </Card.Description>
                   </Card.Content>
@@ -155,21 +193,28 @@ class App extends Component {
               <Card.Group>
                 <Card style={{ width: "900px" }}>
                   <Card.Content style={{ background: "#406ccd" }}>
-                    <Card.Header>NFT</Card.Header>
-                    <Card.Meta>Top 5 NFT tokens</Card.Meta>
+                    <Card.Header style={{color: "white"}}>NFT</Card.Header>
+                    <Card.Meta style={{color: "#C0C0C0"}}>Top 5 NFT tokens</Card.Meta>
                     <Card.Description>
 
+                    <p style={{color: "#C0C0C0"}}>Rate: In return of investing 1 BNB you receive {this.state.rate} NFT Tokens.</p>
+
                       <Form onSubmit={this.investNFT}>
-                        <Input style={{ width: "300px", padding: 3 }} required type="text" placeholder="Amount to mint" name="nftToMint" onChange={this.handleInputChange}></Input><br></br>
-                        <Button color="green" type="submit" style={{ margin: "20px" }}>Invest!</Button>
+                        <Input style={{ width: "300px", padding: 3 }} required type="text" placeholder="BNB amount to invest" name="nftToMint" onChange={this.handleInputChange}></Input>
+                        <Button color="green" type="submit" style={{ margin: "20px", width: "150px" }}>Invest</Button>
                       </Form>
 
-                      <h5>Balances</h5>
+                      <Form>
+                        <Input disabled style={{ width: "300px", padding: 3 }} required type="text" placeholder="BNB amount to withdraw"></Input>
+                        <Button disabled color="green" style={{ margin: "20px", width: "150px" }}>Withdraw</Button>
+                      </Form>
 
-                      <p>NFT Token: {this.state.nftTokenBalance}</p>
-                      <p>USDT Token: {this.state.usdtTokenBalance}</p>
-                      <p>BUSD Token: {this.state.busdTokenBalance}</p>
-                      <p>DAI Token: {this.state.daiTokenBalance}</p>
+                      <h5 style={{color: "white"}}>Balances</h5>
+
+                      <p style={{color: "#C0C0C0	"}}>NFT Token: {this.state.nftTokenBalance}</p>
+                      <p style={{color: "#C0C0C0	"}}>USDT Token: {this.state.usdtTokenBalance}</p>
+                      <p style={{color: "#C0C0C0	"}}>BUSD Token: {this.state.busdTokenBalance}</p>
+                      <p style={{color: "#C0C0C0	"}}>DAI Token: {this.state.daiTokenBalance}</p>
 
                     </Card.Description>
                   </Card.Content>
