@@ -4,9 +4,10 @@ import IndexToken from "./abis/indexToken.json";
 import IERC from "./abis/IERC20.json";
 import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
-import { Grid, Button, Card, Header, Icon, Form, Input, Image } from 'semantic-ui-react';
+import { Grid, Button, Card, Header, Icon, Form, Input, Image, Label, Menu, Table } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import velvet from "./velvet.png";
+import metamask from "./metamask-fox.svg";
 
 
 import "./App.css";
@@ -164,11 +165,12 @@ class App extends Component {
               <Card.Group>
                 <Card style={{ width: "900px" }}>
                   <Card.Content style={{ background: "#406ccd" }}>
-                    <Card.Header style={{color: "white"}}>DeFi</Card.Header>
-                    <Card.Meta style={{color: "#B0B0B0"}}>Top 5 DeFi tokens</Card.Meta>
+                    <Card.Header style={{color: "white"}}>Top 5 DeFi Tokens</Card.Header>
                     <Card.Description>
 
-                    <p style={{color: "#C0C0C0"}}>Rate: In return of investing 1 BNB you receive {this.state.rate} DeFi Tokens.</p>
+                    <p style={{color: "#C0C0C0"}}>Rate: In return of investing 1 BNB you will receive {this.state.rate} DeFi Token.
+
+</p>
 
                       <Form onSubmit={this.investDeFi}>
                         <Input style={{ width: "300px", padding: 3 }} required type="text" placeholder="BNB amount to invest" name="defiToMint" onChange={this.handleInputChange}></Input>
@@ -180,12 +182,34 @@ class App extends Component {
                         <Button disabled color="green" style={{ margin: "20px", width: "150px" }}>Withdraw</Button>
                       </Form>
 
-                      <h5 style={{color: "white"}}>Balances</h5>
+                      <Table style={{"margin-left": "auto", "margin-right": "auto"}} basic='very' celled collapsing>
+                        <Table.Header>
+                          <Table.Row>
+                            <Table.HeaderCell style={{color: "white"}}>Token</Table.HeaderCell>
+                            <Table.HeaderCell style={{color: "white"}}>Balance</Table.HeaderCell>
+                          </Table.Row>
+                        </Table.Header>
 
-                      <p style={{color: "#C0C0C0	"}}>DeFi Token: {this.state.defiTokenBalance}</p>
-                      <p style={{color: "#C0C0C0	"}}>USDT Token: {this.state.usdtTokenBalance}</p>
-                      <p style={{color: "#C0C0C0	"}}>BUSD Token: {this.state.busdTokenBalance}</p>
-                      <p style={{color: "#C0C0C0	"}}>DAI Token: {this.state.daiTokenBalance}</p>
+                        <Table.Body>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>DeFi Token</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.defiTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>USDT</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.usdtTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>BUSD</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.busdTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>DAI</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.daiTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          
+                        </Table.Body>
+                      </Table>
             
                     </Card.Description>
                   </Card.Content>
@@ -198,11 +222,10 @@ class App extends Component {
               <Card.Group>
                 <Card style={{ width: "900px" }}>
                   <Card.Content style={{ background: "#406ccd" }}>
-                    <Card.Header style={{color: "white"}}>NFT</Card.Header>
-                    <Card.Meta style={{color: "#C0C0C0"}}>Top 5 NFT tokens</Card.Meta>
+                    <Card.Header style={{color: "white"}}>Top 5 NFT Tokens</Card.Header>
                     <Card.Description>
 
-                    <p style={{color: "#C0C0C0"}}>Rate: In return of investing 1 BNB you receive {this.state.rate} NFT Tokens.</p>
+                    <p style={{color: "#C0C0C0"}}>Rate: In return of investing 1 BNB you will receive {this.state.rate} NFT Token.</p>
 
                       <Form onSubmit={this.investNFT}>
                         <Input style={{ width: "300px", padding: 3 }} required type="text" placeholder="BNB amount to invest" name="nftToMint" onChange={this.handleInputChange}></Input>
@@ -214,12 +237,34 @@ class App extends Component {
                         <Button disabled color="green" style={{ margin: "20px", width: "150px" }}>Withdraw</Button>
                       </Form>
 
-                      <h5 style={{color: "white"}}>Balances</h5>
+                      <Table style={{"margin-left": "auto", "margin-right": "auto"}} basic='very' celled collapsing>
+                        <Table.Header>
+                          <Table.Row>
+                            <Table.HeaderCell style={{color: "white"}}>Token</Table.HeaderCell>
+                            <Table.HeaderCell style={{color: "white"}}>Balance</Table.HeaderCell>
+                          </Table.Row>
+                        </Table.Header>
 
-                      <p style={{color: "#C0C0C0	"}}>NFT Token: {this.state.nftTokenBalance}</p>
-                      <p style={{color: "#C0C0C0	"}}>USDT Token: {this.state.usdtTokenBalance}</p>
-                      <p style={{color: "#C0C0C0	"}}>BUSD Token: {this.state.busdTokenBalance}</p>
-                      <p style={{color: "#C0C0C0	"}}>DAI Token: {this.state.daiTokenBalance}</p>
+                        <Table.Body>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>NFT Token</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.nftTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>USDT</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.usdtTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>BUSD</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.busdTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          <Table.Row>
+                            <Table.Cell style={{color: "#C0C0C0"}}>DAI</Table.Cell>
+                            <Table.Cell style={{color: "#C0C0C0"}}>{this.state.daiTokenBalance}</Table.Cell>
+                          </Table.Row>
+                          
+                        </Table.Body>
+                      </Table>
 
                     </Card.Description>
                   </Card.Content>
