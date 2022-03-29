@@ -88,6 +88,7 @@ class App extends Component {
       }
 
       this.loadBlockchainData();
+      window.location.reload()
   }
 
   investNFT = async() => {
