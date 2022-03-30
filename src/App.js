@@ -4,11 +4,11 @@ import IndexToken from "./abis/indexToken.json";
 import IERC from "./abis/IERC20.json";
 import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
-import { Grid, Button, Card, Header, Icon, Form, Input, Image, Label, Menu, Table } from 'semantic-ui-react';
+import { Grid, Button, Card, Form, Input, Image, Label, Menu, Table } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import velvet from "./velvet.png";
 import metamask from "./metamask-fox.svg";
-
+import swal from 'sweetalert';
 
 import "./App.css";
 
@@ -51,7 +51,7 @@ class App extends Component {
 
     // modern browsers
     if (provider) {
-      console.log('Ethereum wallet is connected');
+      console.log('MetaMask is connected');
 
       window.web3 = new Web3(provider);
     } else {
@@ -97,9 +97,10 @@ class App extends Component {
     const amount = web3.utils.toWei(v, "ether");
     const resp = await this.state.SwapContract.methods.investInFundNFT().send({from: this.state.account, value: amount});
     if(resp.status) {
-      window.alert("Investment successful!");
+      swal("Investment successfull!", "You invested X amount of money!", "success");
+
     } else {
-      window.alert("Investment failed!");
+      swal("Investment failed!");
     }
 
     this.calcTokenBalances();
@@ -111,9 +112,10 @@ class App extends Component {
     const amount = web3.utils.toWei(v, "ether");
     const resp = await this.state.SwapContract.methods.investInFundDeFi().send({from: this.state.account, value: amount});
     if(resp.status) {
-      window.alert("Investment successful!");
+      swal("Investment successfull!", "You invested X amount of money!", "success");
+
     } else {
-      window.alert("Investment failed!");
+      swal("Investment failed!");
     }
 
     this.calcTokenBalances();
@@ -155,8 +157,9 @@ class App extends Component {
         <br></br>
         <Image src={velvet} size="medium" verticalAlign='middle'></Image>
 
-        <Button style={{position:"absolute", top:"60px", right:"20px"}} onClick={this.connectWallet} color="orange">
-          Connect to MetaMask
+        <Button style={{position:"absolute", top:"30px", right:"20px"}} onClick={this.connectWallet} color="orange">
+        <Image style={{"padding-top": "7px"}} floated="left" size="mini" src={metamask}/>
+        <p>Connect to MetaMask</p>
         </Button>
 
         <Grid divided='vertically'>
