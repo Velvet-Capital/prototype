@@ -97,7 +97,7 @@ class App extends Component {
     const amount = web3.utils.toWei(v, "ether");
     const resp = await this.state.SwapContract.methods.investInFundNFT().send({from: this.state.account, value: amount});
     if(resp.status) {
-      swal("Investment successfull!", `You invested ${v} amount of BNB`, "success");
+      swal("Investment successfull!", `You invested ${v} BNB into the NFT Portfolio.`, "success");
 
     } else {
       swal("Investment failed!");
@@ -112,7 +112,7 @@ class App extends Component {
     const amount = web3.utils.toWei(v, "ether");
     const resp = await this.state.SwapContract.methods.investInFundDeFi().send({from: this.state.account, value: amount});
     if(resp.status) {
-      swal("Investment successfull!", `You invested ${v} amount of BNB`, "success");
+      swal("Investment successfull!", `You invested ${v} BNB into the DeFi Portfolio.`, "success");
 
     } else {
       swal("Investment failed!");
