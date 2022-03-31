@@ -71,7 +71,7 @@ class App extends Component {
     const provider = await detectEthereumProvider();
 
     // modern browsers
-    if (provider) {
+    if (window.ethereum.selectedAddress) {
       console.log('MetaMask is connected');
       if(this.state.account){
         this.setState({
@@ -92,7 +92,7 @@ class App extends Component {
     const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0x8cE8fB2E9D3A957a54236C627084aB2440117abb");
     const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0xE870b73661Cc3De504FE26111748c08224EDBf63");
     const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xAe24BD25B1Aba33f69e97074aF954b1BF84B72Cb");
-    this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract });
+    this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract, connected: true });
   }
 
   handleInputChange = (event) => {
