@@ -72,7 +72,7 @@ class App extends Component {
     const web3 = window.web3;
     const accounts = await window.web3.eth.getAccounts();
     this.setState({ account: accounts[0] })
-    const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0xE0Ab632342C605AFe1e52a247eFEd511254ab11a");
+    const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0x58300577C1b907FA68F8A19601ee7B52a6844089");
     const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0xE870b73661Cc3De504FE26111748c08224EDBf63");
     const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xAe24BD25B1Aba33f69e97074aF954b1BF84B72Cb");
     this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract });
@@ -159,23 +159,23 @@ class App extends Component {
     const ltcTokenBalanceRes = await LTCTokenConntract.methods.balanceOf(this.state.account).call();
     const ltcTokenBalance = web3.utils.fromWei(ltcTokenBalanceRes, "ether");
 
-    const AXSTokenConntract = new web3.eth.Contract(IERC.abi, "0xf1955902806EE5b144691a3de9005951079d8458");
+    const AXSTokenConntract = new web3.eth.Contract(IERC.abi, "0xf34D883EcdE3238B153f38230987a0F4c221a48F");
     const axsTokenBalanceRes = await AXSTokenConntract.methods.balanceOf(this.state.account).call();
     const axsTokenBalance = web3.utils.fromWei(axsTokenBalanceRes, "ether");
 
-    const MANATokenConntract = new web3.eth.Contract(IERC.abi, "0xF5D59a1A7667c23EA6b369085b8C693bE6A6af5C");
+    const MANATokenConntract = new web3.eth.Contract(IERC.abi, "0x1631A54AC95Ecb0085dB6b8ACf80c4Cee72AEB06");
     const manaTokenBalanceRes = await MANATokenConntract.methods.balanceOf(this.state.account).call();
     const manaTokenBalance = web3.utils.fromWei(manaTokenBalanceRes, "ether");
 
-    const SANDTokenConntract = new web3.eth.Contract(IERC.abi, "0x54FA926a8C1241174aFd79F3F1Ea3219D11Afb7E");
+    const SANDTokenConntract = new web3.eth.Contract(IERC.abi, "0x1631A54AC95Ecb0085dB6b8ACf80c4Cee72AEB06");
     const sandTokenBalanceRes = await SANDTokenConntract.methods.balanceOf(this.state.account).call();
     const sandTokenBalance = web3.utils.fromWei(sandTokenBalanceRes, "ether");
 
-    const THETATokenConntract = new web3.eth.Contract(IERC.abi, "0x2f6131AF2dcb1315BA63bCcd0a5E3a236A5C5c93");
+    const THETATokenConntract = new web3.eth.Contract(IERC.abi, "0x19A5E53eC7B385dbE2E587Ba989eA2AB8F7EaF1e");
     const thetaTokenBalanceRes = await THETATokenConntract.methods.balanceOf(this.state.account).call();
     const thetaTokenBalance = web3.utils.fromWei(thetaTokenBalanceRes, "ether");
 
-    const FLOWTokenConntract = new web3.eth.Contract(IERC.abi, "0x190bB213CF401A4E5d8820b12198E92A858239C6");
+    const FLOWTokenConntract = new web3.eth.Contract(IERC.abi, "0xe5c48084E1974a971Bd5dF4d9B01daCCA86d5567");
     const flowTokenBalanceRes = await FLOWTokenConntract.methods.balanceOf(this.state.account).call();
     const flowTokenBalance = web3.utils.fromWei(flowTokenBalanceRes, "ether");
     
