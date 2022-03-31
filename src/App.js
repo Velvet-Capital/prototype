@@ -72,7 +72,7 @@ class App extends Component {
     const web3 = window.web3;
     const accounts = await window.web3.eth.getAccounts();
     this.setState({ account: accounts[0] })
-    const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0xc15B79570f727A334fA13de8801cCF6B1BA16973");
+    const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0xE0Ab632342C605AFe1e52a247eFEd511254ab11a");
     const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0xE870b73661Cc3De504FE26111748c08224EDBf63");
     const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xAe24BD25B1Aba33f69e97074aF954b1BF84B72Cb");
     this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract });
@@ -139,7 +139,7 @@ class App extends Component {
     const defiTokenBalanceRes = await this.state.DeFiTokenContract.methods.balanceOf(this.state.account).call();
     const defiTokenBalance = web3.utils.fromWei(defiTokenBalanceRes, "ether");
 
-    const BTCTokenConntract = new web3.eth.Contract(IERC.abi, "0x419816F160C9bf1Bb8F297d17E1bF44207B9E06C");
+    const BTCTokenConntract = new web3.eth.Contract(IERC.abi, "0x4b1851167f74FF108A994872A160f1D6772d474b");
     const btcTokenBalanceRes = await BTCTokenConntract.methods.balanceOf(this.state.account).call();
     const btcTokenBalance = web3.utils.fromWei(btcTokenBalanceRes, "ether");
 
@@ -147,15 +147,15 @@ class App extends Component {
     const ethTokenBalanceRes = await ETHTokenConntract.methods.balanceOf(this.state.account).call();
     const ethTokenBalance = web3.utils.fromWei(ethTokenBalanceRes, "ether");
 
-    const SHIBATokenConntract = new web3.eth.Contract(IERC.abi, "0xb950614981c8bc650744347293e3AC4Ea8ff123B");
+    const SHIBATokenConntract = new web3.eth.Contract(IERC.abi, "0xBf0646Fa5ABbFf6Af50a9C40D5E621835219d384");
     const shibaTokenBalanceRes = await SHIBATokenConntract.methods.balanceOf(this.state.account).call();
     const shibaTokenBalance = web3.utils.fromWei(shibaTokenBalanceRes, "ether");
 
-    const XRPTokenConntract = new web3.eth.Contract(IERC.abi, "0x53E5D0c3702Fb163C8650ee74697BE9beF38b9E5");
+    const XRPTokenConntract = new web3.eth.Contract(IERC.abi, "0xCc00177908830cE1644AEB4aD507Fda3789128Af");
     const xrpTokenBalanceRes = await XRPTokenConntract.methods.balanceOf(this.state.account).call();
     const xrpTokenBalance = web3.utils.fromWei(xrpTokenBalanceRes, "ether");
 
-    const LTCTokenConntract = new web3.eth.Contract(IERC.abi, "0xC3c89a5Cd270BFB4f948CEF2151d818E3cB9bDD2");
+    const LTCTokenConntract = new web3.eth.Contract(IERC.abi, "0x2F9fd65E3BB89b68a8e2Abd68Db25F5C348F68Ee");
     const ltcTokenBalanceRes = await LTCTokenConntract.methods.balanceOf(this.state.account).call();
     const ltcTokenBalance = web3.utils.fromWei(ltcTokenBalanceRes, "ether");
 
