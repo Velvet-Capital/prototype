@@ -458,7 +458,7 @@ class App extends Component {
                     <Card.Header style={{ color: "white" }}>Top 10 Metaverse Tokens</Card.Header>
                     <Card.Description>
 
-                      <p style={{ color: "#C0C0C0" }}>Rate: In return of investing 1 BNB you will receive {this.state.rate} Metaverse Token.</p>
+                      <p style={{ color: "#C0C0C0" }}>Rate: In return of investing 1 BNB you will receive {this.state.rate} META Token.</p>
 
                       <Form onSubmit={this.investNFT}>
                         <Input style={{ width: "300px", padding: 3 }} required type="text" placeholder="BNB amount to create" name="nftToMint" onChange={this.handleInputChange}></Input>
