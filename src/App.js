@@ -73,9 +73,6 @@ class App extends Component {
     // modern browsers
     if (provider) {
       console.log('MetaMask is connected');
-      this.setState({
-        connected: true
-      })
 
       window.web3 = new Web3(provider);
     } else {
