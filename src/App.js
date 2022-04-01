@@ -105,7 +105,7 @@ class App extends Component {
   async loadBlockchainData() {
     const web3 = window.web3;
     const accounts = await window.web3.eth.getAccounts();
-    if(accounts != []) {
+    if(accounts[0]) {
       this.setState({ connected: true })
     }
     this.setState({ account: accounts[0]})
