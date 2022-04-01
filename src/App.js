@@ -110,8 +110,8 @@ class App extends Component {
     }
     this.setState({ account: accounts[0]})
     const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0x8cE8fB2E9D3A957a54236C627084aB2440117abb");
-    const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0xE870b73661Cc3De504FE26111748c08224EDBf63");
-    const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xAe24BD25B1Aba33f69e97074aF954b1BF84B72Cb");
+    const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0x817ea2A5Fd281d15CA70B05abB5E094356C42996");
+    const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xF70538622598232a95B1EC1914Fc878d28EBAE68");
     this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract});
   }
 
