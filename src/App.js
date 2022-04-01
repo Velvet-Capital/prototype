@@ -106,7 +106,7 @@ class App extends Component {
     const web3 = window.web3;
     const accounts = await window.web3.eth.getAccounts();
     if(accounts != []) {
-      this.setState({ account: accounts[0], connected: true })
+      this.setState({ connected: true })
     }
     this.setState({ account: accounts[0]})
     const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0x8cE8fB2E9D3A957a54236C627084aB2440117abb");
