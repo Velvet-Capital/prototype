@@ -93,7 +93,7 @@ class App extends Component {
     const provider = await detectEthereumProvider();
 
     // modern browsers
-    if (window.ethereum.selectedAddress) {
+    if (provider) {
       console.log('MetaMask is connected');
       if(this.state.account){
         this.setState({
@@ -166,7 +166,7 @@ class App extends Component {
     const resp = await this.state.SwapContract.methods.investInFundDefi().send({ from: this.state.account, value: amount });
     if (resp.status) {
       swal("Investment successfull!", `You invested ${v} BNB into the portfolio.`, "success");
-
+      window.location.reload();
     } else {
       swal("Investment failed!");
     }
