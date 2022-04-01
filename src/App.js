@@ -150,6 +150,7 @@ class App extends Component {
     const resp = await this.state.SwapContract.methods.investInFundNFT().send({ from: this.state.account, value: amount });
     if (resp.status) {
       swal("Investment successfull!", `You invested ${v} BNB into the portfolio.`, "success");
+      window.location.reload();
 
     } else {
       swal("Investment failed!");
