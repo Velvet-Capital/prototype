@@ -307,18 +307,22 @@ class App extends Component {
     await this.state.DeFiTokenContract.methods.approve("0xa4634EeeF18BC6Fe1468fc746e98f056b252C04C", "7787357773333787487837458347754874574837458374")
     .send({from: this.state.account});
 
+    var amount = withdrawAmountInWei / 10;
+    var swapAmount = amount;
+
+
     await this.state.SwapContract.methods.withdrawFromFundTOPTokens(
-      investments[0], 
-      investments[1], 
-      investments[2], 
-      investments[3], 
-      investments[4], 
-      investments[5], 
-      investments[6], 
-      investments[7], 
-      investments[8], 
-      investments[9], 
-      withdrawAmountInWei
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      amount
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
@@ -344,18 +348,22 @@ class App extends Component {
     await this.state.NFTTokenContract.methods.approve("0xa4634EeeF18BC6Fe1468fc746e98f056b252C04C", "7787357773333787487837458347754874574837458374")
     .send({from: this.state.account});
 
+    var amount = withdrawAmountInWei / 10;
+    var swapAmount = amount;
+
+
     await this.state.SwapContract.methods.withdrawFromFundNFT(
-      investments[0], 
-      investments[1], 
-      investments[2], 
-      investments[3], 
-      investments[4], 
-      investments[5], 
-      investments[6], 
-      investments[7], 
-      investments[8], 
-      investments[9], 
-      withdrawAmountInWei
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      swapAmount,
+      amount
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
