@@ -322,7 +322,7 @@ class App extends Component {
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
-      swal("Withdrawal successfull!", "success");
+      swal("Withdrawal successfull!", "The withdrawal was successful!", "success");
       console.log(receipt);
     })
       .catch((err) => {
@@ -359,7 +359,7 @@ class App extends Component {
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
-      swal("Withdrawal successfull!", "success");
+      swal("Withdrawal successfull!", "The withdrawal was successful!", "success");
       console.log(receipt);
     })
       .catch((err) => {
