@@ -322,6 +322,7 @@ class App extends Component {
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
+      swal("Withdrawal successfull!", "success");
       console.log(receipt);
     })
       .catch((err) => {
@@ -329,31 +330,36 @@ class App extends Component {
       });
   }
 
-  getMap = async () => {
-    console.log("map");
-    console.log(this.state.mapNft);
-    console.log(this.state.mapDefi);
-  }
-
   withdrawNFT = async () => {
     const web3 = new Web3(window.ethereum);
-    const accounts = await web3.eth.getAccounts();
+    var investments = this.state.mapNft;
+    console.log("NFTINVESTMENTS");
+    console.log(investments);
+
+    console.log(this.state.NFTTokenContract);
+
+    var withdrawAmt = this.state.withdrawValueNFT;
+    var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
 
     await this.state.NFTTokenContract.methods.approve("0xa4634EeeF18BC6Fe1468fc746e98f056b252C04C", "7787357773333787487837458347754874574837458374")
     .send({from: this.state.account});
 
-    var investments = this.state.mapNft;
-    console.log(investments);
-    var withdrawAmt = this.state.withdrawValueNFT;
-    var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
-
-    await this.state.SwapContract.methods.withdrawFromFundTOPTokens(
-      investments[0], investments[1], investments[2], investments[3], investments[4], 
-      investments[5], investments[6], investments[7], investments[8], investments[9], 
+    await this.state.SwapContract.methods.withdrawFromFundNFT(
+      investments[0], 
+      investments[1], 
+      investments[2], 
+      investments[3], 
+      investments[4], 
+      investments[5], 
+      investments[6], 
+      investments[7], 
+      investments[8], 
+      investments[9], 
       withdrawAmountInWei
     ).send({
-      from: this.state.account
+      from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
+      swal("Withdrawal successfull!", "success");
       console.log(receipt);
     })
       .catch((err) => {
@@ -740,4 +746,3 @@ class App extends Component {
 }
 
 export default App;
-
