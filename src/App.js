@@ -117,7 +117,7 @@ class App extends Component {
       this.setState({ connected: true })
     }
     this.setState({ account: accounts[0]})
-    const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0xa4634EeeF18BC6Fe1468fc746e98f056b252C04C");
+    const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A");
     const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0x817ea2A5Fd281d15CA70B05abB5E094356C42996");
     const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xF70538622598232a95B1EC1914Fc878d28EBAE68");
     this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract});
@@ -295,6 +295,8 @@ class App extends Component {
   }
 
   withdrawDeFi = async () => {
+    var vault = 0x6056773C28c258425Cf9BC8Ba5f86B8031863164;
+
     const web3 = new Web3(window.ethereum);
     var investments = this.state.mapDefi;
     console.log(investments);
@@ -304,25 +306,14 @@ class App extends Component {
     var withdrawAmt = this.state.withdrawValueDefi;
     var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
 
-    await this.state.DeFiTokenContract.methods.approve("0xa4634EeeF18BC6Fe1468fc746e98f056b252C04C", "7787357773333787487837458347754874574837458374")
+    // check index token balance of account > withdrawamoutinwei
+
+    await this.state.DeFiTokenContract.methods.approve("0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A", "7787357773333787487837458347754874574837458374")
     .send({from: this.state.account});
 
     var amount = withdrawAmountInWei / 10;
-    var swapAmount = amount;
 
-
-    await this.state.SwapContract.methods.withdrawFromFundTOPTokens(
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      amount
+    await this.state.SwapContract.methods.withdrawFromFundTOPTokens(amount
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
