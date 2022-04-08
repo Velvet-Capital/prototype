@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import IndexSwap from "./abis/IndexSwap.json";
 import IndexToken from "./abis/indexToken.json";
+import NFTSwap from "./abis/NFTPortfolio.json";
 import IERC from "./abis/IERC20.json";
 import pancakeSwapRouter from "./abis/IPancakeRouter02.json";
 import detectEthereumProvider from '@metamask/detect-provider';
@@ -24,6 +25,7 @@ class App extends Component {
       SwapContract: null,
       NFTTokenContract: null,
       DeFiTokenContract: null,
+      NFTPortfolioContract: null,
       address: "",
       connected: false,
       mapDefi: [],
@@ -118,9 +120,10 @@ class App extends Component {
     }
     this.setState({ account: accounts[0]})
     const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A");
+    const NFTPortfolioContract = new web3.eth.Contract(NFTSwap.abi, "0xE3250989f1E4b412e23D25651895125EaDd6D49F");
     const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0x817ea2A5Fd281d15CA70B05abB5E094356C42996");
     const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xF70538622598232a95B1EC1914Fc878d28EBAE68");
-    this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract});
+    this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract, NFTPortfolioContract});
   }
 
   handleInputChange = (event) => {
@@ -153,12 +156,11 @@ class App extends Component {
     const web3 = new Web3(window.ethereum);
     const v = this.state.nftToMint;
     const valueInWei = web3.utils.toWei(v, 'ether');
+    console.log(this.state.NFTPortfolioContract.methods);
     
-    const resp = await this.state.SwapContract.methods.investInFundNFT().send({ from: this.state.account, value: valueInWei
+    const resp = await this.state.NFTPortfolioContract.methods.investInFundNFT().send({ from: this.state.account, value: valueInWei
     }).once("receipt", (receipt) => {
       console.log(receipt);
-      transactionHash = receipt.transactionHash;
-      console.log(transactionHash);
     })
       .catch((err) => {
         console.log(err);
@@ -170,55 +172,6 @@ class App extends Component {
     }
 
     this.calcTokenBalances();
-
-    var transactionHash;
-    var dataArray = [];
-    const url = "https://api.covalenthq.com/v1/97/transaction_v2/" + transactionHash + "/?key=ckey_985d5a70312c453ea3c00c978fc"
-
-    const response = await axios.get(url);
-
-    //  console.log(response.data.data.items)
-    if (response.data) {
-
-      if (response.data.data.items[0]) {
-        var res = response.data.data.items[0].log_events
-        for (var i = 0; i < res.length; i++) {
-          var obj = res[i];
-          if (obj.sender_contract_ticker_symbol == 'AXS') {
-            dataArray[0] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'MANA') {
-            dataArray[1] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'SAND') {
-            dataArray[2] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'THETA') {
-            dataArray[3] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'FLOW') {
-            dataArray[4] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'XTZ') {
-            dataArray[5] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'GALA') {
-            dataArray[6] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'CHZ') {
-            dataArray[7] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'ENJ') {
-            dataArray[8] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'ROSE') {
-            dataArray[9] = obj.decoded.params[2].value;
-          }
-        }
-        console.log(dataArray);
-        this.setState({mapNft: dataArray});
-      }
-    }
   }
 
   investDeFi = async () => {
@@ -229,8 +182,7 @@ class App extends Component {
     const resp = await this.state.SwapContract.methods.investInFundDefi().send({ from: this.state.account, value: valueInWei })
     .once("receipt", (receipt) => {
       console.log(receipt);
-      transactionHash = receipt.transactionHash;
-      console.log(transactionHash);
+
     })
       .catch((err) => {
         console.log(err);
@@ -245,70 +197,20 @@ class App extends Component {
 
     this.calcTokenBalances();
 
-    var transactionHash;
-    var dataArray = [];
-    const url = "https://api.covalenthq.com/v1/97/transaction_v2/" + transactionHash + "/?key=ckey_985d5a70312c453ea3c00c978fc"
-    const response = await axios.get(url);
-
-
-    //console.log(response.data.data.items)
-    if (response.data) {
-      console.log(response.data);
-      if (response.data.data.items[0]) {
-        var res = response.data.data.items[0].log_events
-        for (var i = 0; i < res.length; i++) {
-          var obj = res[i];
-          if (obj.sender_contract_ticker_symbol == 'BTC') {
-            dataArray[0] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'ETH') {
-            dataArray[1] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'SHIB') {
-            dataArray[2] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'XRP') {
-            dataArray[3] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'LTC') {
-            dataArray[4] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'DAI') {
-            dataArray[5] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'LUNA') {
-            dataArray[6] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'LINK') {
-            dataArray[7] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'UNI') {
-            dataArray[8] = obj.decoded.params[2].value;
-          }
-          if (obj.sender_contract_ticker_symbol == 'STETH') {
-            dataArray[9] = obj.decoded.params[2].value;
-          }
-        }
-        this.setState({mapDefi: dataArray});
-      }
-    }
   }
 
   withdrawDeFi = async () => {
     var vault = 0x6056773C28c258425Cf9BC8Ba5f86B8031863164;
 
     const web3 = new Web3(window.ethereum);
-    var investments = this.state.mapDefi;
-    console.log(investments);
 
     console.log(this.state.DeFiTokenContract);
 
     var withdrawAmt = this.state.withdrawValueDefi;
     var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
 
-    // check index token balance of account > withdrawamoutinwei
 
-    await this.state.DeFiTokenContract.methods.approve("0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A", "7787357773333787487837458347754874574837458374")
+    await this.state.NFTTokenContract.methods.approve("0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A", "7787357773333787487837458347754874574837458374")
     .send({from: this.state.account});
 
     var amount = withdrawAmountInWei / 10;
@@ -327,34 +229,16 @@ class App extends Component {
 
   withdrawNFT = async () => {
     const web3 = new Web3(window.ethereum);
-    var investments = this.state.mapNft;
-    console.log("NFTINVESTMENTS");
-    console.log(investments);
-
-    console.log(this.state.NFTTokenContract);
 
     var withdrawAmt = this.state.withdrawValueNFT;
     var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
 
-    await this.state.NFTTokenContract.methods.approve("0xa4634EeeF18BC6Fe1468fc746e98f056b252C04C", "7787357773333787487837458347754874574837458374")
+    await this.state.NFTTokenContract.methods.approve("0xE3250989f1E4b412e23D25651895125EaDd6D49F", "7787357773333787487837458347754874574837458374")
     .send({from: this.state.account});
 
     var amount = withdrawAmountInWei / 10;
-    var swapAmount = amount;
 
-
-    await this.state.SwapContract.methods.withdrawFromFundNFT(
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      swapAmount,
-      amount
+    await this.state.NFTPortfolioContract.methods.withdrawFromFundNFT(amount
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
