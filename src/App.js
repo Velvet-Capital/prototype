@@ -120,7 +120,7 @@ class App extends Component {
     }
     this.setState({ account: accounts[0]})
     const SwapContract = new web3.eth.Contract(IndexSwap.abi, "0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A");
-    const NFTPortfolioContract = new web3.eth.Contract(NFTSwap.abi, "0xE3250989f1E4b412e23D25651895125EaDd6D49F");
+    const NFTPortfolioContract = new web3.eth.Contract(NFTSwap.abi, "0x9CCC6fc03Dd58BF153680edEe77b6de584a80725");
     const NFTTokenContract = new web3.eth.Contract(IndexToken.abi, "0x817ea2A5Fd281d15CA70B05abB5E094356C42996");
     const DeFiTokenContract = new web3.eth.Contract(IndexToken.abi, "0xF70538622598232a95B1EC1914Fc878d28EBAE68");
     this.setState({ SwapContract, NFTTokenContract, DeFiTokenContract, NFTPortfolioContract});
@@ -158,7 +158,7 @@ class App extends Component {
     const valueInWei = web3.utils.toWei(v, 'ether');
     console.log(this.state.NFTPortfolioContract.methods);
     
-    const resp = await this.state.NFTPortfolioContract.methods.investInFundNFT().send({ from: this.state.account, value: valueInWei
+    const resp = await this.state.NFTPortfolioContract.methods.investInFundDefi().send({ from: this.state.account, value: valueInWei
     }).once("receipt", (receipt) => {
       console.log(receipt);
     })
@@ -199,6 +199,40 @@ class App extends Component {
 
   }
 
+  approveNFTTokens = async() => {
+    const web3 = new Web3(window.ethereum);  
+
+    const aXSTokenConntract = new web3.eth.Contract(IERC.abi, "0xf34D883EcdE3238B153f38230987a0F4c221a48F");
+    await aXSTokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const mANATokenConntract = new web3.eth.Contract(IERC.abi, "0x8bf2dF0Ff8528088475183a68678bd1Cd7691b69");
+    await mANATokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const sANDTokenConntract = new web3.eth.Contract(IERC.abi, "0x1631A54AC95Ecb0085dB6b8ACf80c4Cee72AEB06");
+    await sANDTokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const tHETATokenConntract = new web3.eth.Contract(IERC.abi, "0x19A5E53eC7B385dbE2E587Ba989eA2AB8F7EaF1e");
+    await tHETATokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const fLOWTokenConntract = new web3.eth.Contract(IERC.abi, "0xe5c48084E1974a971Bd5dF4d9B01daCCA86d5567");
+    await fLOWTokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const xTZTokenConntract = new web3.eth.Contract(IERC.abi, "0xC5De9d5B0BA5b408a3e9530A1BC310d8F2dCC26a");
+    await xTZTokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const gALATokenConntract = new web3.eth.Contract(IERC.abi, "0x4bf1CE8E4c4c86126E57Fa9fc3f1a9631661641c");
+    await gALATokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const cHZTokenConntract = new web3.eth.Contract(IERC.abi, "0xdeEC6f0C22970b9b8a47069bE619bfAe646dEe26");
+    await cHZTokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const eNJTokenConntract = new web3.eth.Contract(IERC.abi, "0xb08A1959f57b9cC8e5A5F1d329EfD90EE3438F65");
+    await eNJTokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+
+    const rOSETokenConntract = new web3.eth.Contract(IERC.abi, "0x30c1AC77F4068A063648B549ffF96Ddb9d151325");
+    await rOSETokenConntract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({ from: "0x6056773C28c258425Cf9BC8Ba5f86B8031863164" });
+  }
+
   withdrawDeFi = async () => {
     var vault = 0x6056773C28c258425Cf9BC8Ba5f86B8031863164;
 
@@ -210,12 +244,13 @@ class App extends Component {
     var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
 
 
-    await this.state.NFTTokenContract.methods.approve("0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A", "7787357773333787487837458347754874574837458374")
+    await this.state.DeFiTokenContract.methods.approve("0xC279Dd85AE849f49aae8c4615c1140071bcF1b5A", "7787357773333787487837458347754874574837458374")
     .send({from: this.state.account});
 
     var amount = withdrawAmountInWei / 10;
+    var sAmount = amount.toString();
 
-    await this.state.SwapContract.methods.withdrawFromFundTOPTokens(amount
+    await this.state.SwapContract.methods.withdrawFromFundTOPTokens(sAmount
     ).send({
       from: this.state.account, value: 0
     }).once("receipt", (receipt) => {
@@ -228,26 +263,32 @@ class App extends Component {
   }
 
   withdrawNFT = async () => {
-    const web3 = new Web3(window.ethereum);
-
-    var withdrawAmt = this.state.withdrawValueNFT;
-    var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
-
-    await this.state.NFTTokenContract.methods.approve("0xE3250989f1E4b412e23D25651895125EaDd6D49F", "7787357773333787487837458347754874574837458374")
-    .send({from: this.state.account});
-
-    var amount = withdrawAmountInWei / 10;
-
-    await this.state.NFTPortfolioContract.methods.withdrawFromFundNFT(amount
-    ).send({
-      from: this.state.account, value: 0
-    }).once("receipt", (receipt) => {
-      swal("Withdrawal successfull!", "The withdrawal was successful!", "success");
-      console.log(receipt);
-    })
-      .catch((err) => {
-        console.log(err);
-      });
+      var vault = 0x6056773C28c258425Cf9BC8Ba5f86B8031863164;
+  
+      const web3 = new Web3(window.ethereum);
+  
+      console.log(this.state.DeFiTokenContract);
+  
+      var withdrawAmt = this.state.withdrawValueNFT;
+      var withdrawAmountInWei = web3.utils.toWei(withdrawAmt, 'ether');
+  
+  
+      await this.state.NFTTokenContract.methods.approve("0x9CCC6fc03Dd58BF153680edEe77b6de584a80725", "7787357773333787487837458347754874574837458374")
+      .send({from: this.state.account});
+  
+      var amount = withdrawAmountInWei / 10;
+      var sAmount = amount.toString();
+  
+      await this.state.NFTPortfolioContract.methods.withdrawFromFundNFT(sAmount
+      ).send({
+        from: this.state.account, value: 0
+      }).once("receipt", (receipt) => {
+        swal("Withdrawal successfull!", "The withdrawal was successful!", "success");
+        console.log(receipt);
+      })
+        .catch((err) => {
+          console.log(err);
+        });
   }
 
   getExchangeRate = async (amountIn, address) => {
@@ -339,9 +380,9 @@ class App extends Component {
     const axsTokenBalanceBnb = web3.utils.fromWei(helperAxs, "ether");
     const axsTokenBalance = web3.utils.fromWei(axsTokenBalanceRes, "ether");
 
-    const MANATokenConntract = new web3.eth.Contract(IERC.abi, "0x1631A54AC95Ecb0085dB6b8ACf80c4Cee72AEB06");
+    const MANATokenConntract = new web3.eth.Contract(IERC.abi, "0x8bf2dF0Ff8528088475183a68678bd1Cd7691b69");
     const manaTokenBalanceRes = await MANATokenConntract.methods.balanceOf("0x6056773C28c258425Cf9BC8Ba5f86B8031863164").call();
-    const helperMana = await this.getExchangeRate(manaTokenBalanceRes, "0x1631A54AC95Ecb0085dB6b8ACf80c4Cee72AEB06");
+    const helperMana = await this.getExchangeRate(manaTokenBalanceRes, "0x8bf2dF0Ff8528088475183a68678bd1Cd7691b69");
     const manaTokenBalanceBnb = web3.utils.fromWei(helperMana, "ether");
     const manaTokenBalance = web3.utils.fromWei(manaTokenBalanceRes, "ether");
 
@@ -425,6 +466,8 @@ class App extends Component {
     return (
       <div className="App">
         <br></br>
+
+        <Button onClick={this.approveNFTTokens} color="green" style={{ margin: "20px", width: "150px" }}>approve</Button>
         <Image src={velvet} size="medium" verticalAlign='middle'></Image>
 
         {button}
