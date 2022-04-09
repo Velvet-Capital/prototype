@@ -467,7 +467,6 @@ class App extends Component {
       <div className="App">
         <br></br>
 
-        <Button onClick={this.approveNFTTokens} color="green" style={{ margin: "20px", width: "150px" }}>approve</Button>
         <Image src={velvet} size="medium" verticalAlign='middle'></Image>
 
         {button}
